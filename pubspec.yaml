@@ -62,7 +62,7 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
-  generate: true    # needed to generate localization .arb files
+  generate: true    # needed to generate localization from .arb files
 
   assets:
     - assets/images/

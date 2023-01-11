@@ -2,6 +2,8 @@
 
 This project is used to initiate developers to Flutter framework.
 
+Link to the [formation support](https://docs.google.com/presentation/d/1c9xZ5W3jkbgxtu82VSO-GM3qUaR9SHjkmRQLnpPZpbc/edit?usp=sharing).
+
 App aimed to show a list of movies from [TheMovieDB](https://www.themoviedb.org/) and to navigate to a page of movie details.
 
 ## Useful dart links
