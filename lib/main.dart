@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,7 +25,9 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: const MyHomePage(title: 'The Movie DB app'),
     );
   }
 }
@@ -95,6 +98,13 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Image.asset(
+              'assets/images/flutter.png',
+              height: 100,
+            ),
+            const SizedBox(height: 30),
+            Text(AppLocalizations.of(context)!.helloWorld),
+            const SizedBox(height: 100),
             const Text(
               'You have pushed the button this many times:',
             ),

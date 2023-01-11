@@ -1,16 +1,23 @@
 # flutter_tmbd
 
-A new Flutter project.
+This project is used to initiate developers to Flutter framework.
 
-## Getting Started
+App aimed to show a list of movies from [TheMovieDB](https://www.themoviedb.org/) and to navigate to a page of movie details.
 
-This project is a starting point for a Flutter application.
+## Useful dart links
 
-A few resources to get you started if this is your first Flutter project:
+[Dart pad](https://dartpad.dev/)
+[Dart samples](https://dart.dev/samples)
+[Dart cheat sheet](https://dart.dev/codelabs/dart-cheatsheet)
+[Language tour](https://dart.dev/guides/language/language-tour)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## App localization
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+To add localization to the app, we just followed [official documentation](https://docs.flutter.dev/development/accessibility-and-localization/internationalization).
+
+## Assets/Fonts
+
+All assets and fonts are stored in the ```assets``` folder at the root of project.
+
+We also need to specify their presence in the ```pubspec.yaml``` file.
+
