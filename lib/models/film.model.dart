@@ -35,23 +35,22 @@ class FilmModel extends FilmEntity {
           voteCount: voteCount,
         );
 
-  factory FilmModel.fromJson(Map<String, dynamic> json) {
-    return FilmModel(
-      adult: json['adult'] ?? false,
-      background: json['backdrop_path'],
-      budget: json['budget'] ?? 0,
-      id: json['id'] ?? 0,
-      language: json['original_language'] ?? '',
-      originalTitle: json['original_title'] ?? '',
-      overview: json['overview'] ?? '',
-      popularity: json['popularity'] ?? 0.0,
-      poster: json['poster_path'],
-      releaseDate: json['release_date'],
-      revenue: json['runtime'] ?? 0,
-      tagLine: json['tagline'] ?? '',
-      title: json['title'] ?? '',
-      voteAverage: json['vote_average'] ?? 0.0,
-      voteCount: json['vote_count'] ?? 0,
-    );
-  }
+  FilmModel.fromJson(Map<String, dynamic> json)
+      : super(
+          adult: json['adult'] ?? false,
+          background: json['backdrop_path'],
+          budget: json['budget'] ?? 0,
+          id: json['id'] ?? 0,
+          language: json['original_language'] ?? '',
+          originalTitle: json['original_title'] ?? '',
+          overview: json['overview'] ?? '',
+          popularity: json['popularity'] ?? 0.0,
+          poster: json['poster_path'],
+          releaseDate: json['release_date'],
+          revenue: json['runtime'] ?? 0,
+          tagLine: json['tagline'] ?? '',
+          title: json['title'] ?? '',
+          voteAverage: json['vote_average'] ?? 0.0,
+          voteCount: json['vote_count'] ?? 0,
+        );
 }

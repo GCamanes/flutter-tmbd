@@ -37,6 +37,7 @@ dependencies:
 
   flutter_localizations:  # needed for app localization
     sdk: flutter
+  http: ^0.13.5
   intl: ^0.17.0           # needed for app localization
 
 dev_dependencies:
