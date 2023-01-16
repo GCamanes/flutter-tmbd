@@ -39,19 +39,23 @@ class FilmTileWidget extends StatelessWidget {
             // This widget create a context with border radius as attribute
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                TmdbServices.getImageUrl(film.poster ?? ''),
-                fit: BoxFit.fitHeight,
-                errorBuilder: (
-                  BuildContext context,
-                  Object error,
-                  StackTrace? stackTrace,
-                ) {
-                  return Image.asset(
-                    'assets/images/poster_placeholder.png',
-                    fit: BoxFit.fitHeight,
-                  );
-                },
+              child: SizedBox(
+                height: 100 - AppConstants.innerPadding,
+                width: (100 - AppConstants.innerPadding) * 0.66,
+                child: Image.network(
+                  TmdbServices.getImageUrl(film.poster ?? ''),
+                  fit: BoxFit.fitHeight,
+                  errorBuilder: (
+                    BuildContext context,
+                    Object error,
+                    StackTrace? stackTrace,
+                  ) {
+                    return Image.asset(
+                      'assets/images/poster_placeholder.png',
+                      fit: BoxFit.fitHeight,
+                    );
+                  },
+                ),
               ),
             ),
             // Spacing widgets in the row
