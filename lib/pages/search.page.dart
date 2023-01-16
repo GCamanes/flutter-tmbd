@@ -2,41 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tmbd/app.constants.dart';
 import 'package:flutter_tmbd/datasources/tmdb.services.dart';
 import 'package:flutter_tmbd/entities/film.entity.dart';
-import 'package:flutter_tmbd/pages/search.page.dart';
 import 'package:flutter_tmbd/widgets/film_tile.widget.dart';
+import 'package:flutter_tmbd/widgets/search_field.widget.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class SearchPage extends StatefulWidget {
+  const SearchPage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<SearchPage> createState() => _SearchPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _SearchPageState extends State<SearchPage> {
   List<FilmEntity>? _films = <FilmEntity>[];
   bool _loading = false;
+  final TextEditingController _controller = TextEditingController();
 
-  @override
-  void initState() {
-    _loadFilms();
-    super.initState();
-  }
-
-  Future<void> _loadFilms() async {
+  Future<void> _searchFilms(String search) async {
     setState(() {
       _loading = true;
     });
-    List<FilmEntity>? films = await TmdbServices.getPopularFilms();
+    List<FilmEntity>? films = await TmdbServices.searchFilms(search);
     setState(() {
       _loading = false;
       _films = films;
     });
   }
-
-  void _goToSearch(BuildContext context) => Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => const SearchPage()),
-  );
 
   Widget _buildFilmList() => ListView.separated(
         physics: const ClampingScrollPhysics(),
@@ -52,12 +42,18 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('The Movie DB app'),
+        title: SizedBox(
+          height: AppConstants.appBarHeight * 0.7,
+          child: SearchFieldWidget(
+            controller: _controller,
+            onSubmit: _searchFilms,
+          ),
+        ),
         centerTitle: true,
         titleSpacing: 0,
         actions: [
           IconButton(
-            onPressed: () => _goToSearch(context),
+            onPressed: () => _searchFilms(_controller.text),
             icon: const Icon(Icons.search),
           ),
         ],
