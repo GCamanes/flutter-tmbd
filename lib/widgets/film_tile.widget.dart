@@ -42,6 +42,16 @@ class FilmTileWidget extends StatelessWidget {
               child: Image.network(
                 TmdbServices.getImageUrl(film.poster ?? ''),
                 fit: BoxFit.fitHeight,
+                errorBuilder: (
+                  BuildContext context,
+                  Object error,
+                  StackTrace? stackTrace,
+                ) {
+                  return Image.asset(
+                    'assets/images/poster_placeholder.png',
+                    fit: BoxFit.fitHeight,
+                  );
+                },
               ),
             ),
             // Spacing widgets in the row
