@@ -50,6 +50,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('The Movie DB app'),
         centerTitle: true,
+        titleSpacing: 0,
         actions: [
           IconButton(
             onPressed: () => log('go to search'),
