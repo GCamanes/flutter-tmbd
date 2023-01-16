@@ -40,27 +40,30 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: SizedBox(
-          height: AppConstants.appBarHeight * 0.7,
-          child: SearchFieldWidget(
-            controller: _controller,
-            onSubmit: _searchFilms,
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: SizedBox(
+            height: AppConstants.appBarHeight * 0.7,
+            child: SearchFieldWidget(
+              controller: _controller,
+              onSubmit: _searchFilms,
+            ),
           ),
+          centerTitle: true,
+          titleSpacing: 0,
+          actions: [
+            IconButton(
+              onPressed: () => _searchFilms(_controller.text),
+              icon: const Icon(Icons.search),
+            ),
+          ],
         ),
-        centerTitle: true,
-        titleSpacing: 0,
-        actions: [
-          IconButton(
-            onPressed: () => _searchFilms(_controller.text),
-            icon: const Icon(Icons.search),
-          ),
-        ],
+        body: _loading
+            ? const Center(child: CircularProgressIndicator())
+            : _buildFilmList(),
       ),
-      body: _loading
-          ? const Center(child: CircularProgressIndicator())
-          : _buildFilmList(),
     );
   }
 }
