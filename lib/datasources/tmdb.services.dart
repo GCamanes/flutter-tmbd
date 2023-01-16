@@ -12,6 +12,9 @@ abstract class TmdbServices {
   static Uri buildUri(String requestPath) =>
       Uri.parse('$host$requestPath?api_key=$apiKey');
 
+  static String getImageUrl(String path, {int width = 500}) =>
+      'https://image.tmdb.org/t/p/w$width$path';
+
   static Future<List<FilmEntity>?> getPopularFilms() async {
     http.Response response = await http.get(buildUri('/movie/popular'));
     switch (response.statusCode) {

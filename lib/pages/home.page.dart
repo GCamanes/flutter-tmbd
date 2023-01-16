@@ -35,11 +35,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildFilmList() => ListView.separated(
-    padding: const EdgeInsets.symmetric(vertical: AppConstants.padding),
+        physics: const ClampingScrollPhysics(),
+        padding: const EdgeInsets.symmetric(vertical: AppConstants.padding),
         itemBuilder: (BuildContext context, int index) =>
             FilmTileWidget(film: _films![index]),
         separatorBuilder: (BuildContext context, int index) =>
-             const SizedBox(height: AppConstants.innerPadding),
+            const SizedBox(height: AppConstants.innerPadding),
         itemCount: _films?.length ?? 0,
       );
 
