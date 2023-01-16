@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tmbd/datasources/tmdb.services.dart';
 import 'package:flutter_tmbd/entities/film.entity.dart';
 
 class FilmDetailPage extends StatelessWidget {
@@ -19,7 +20,18 @@ class FilmDetailPage extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
         titleSpacing: 0,
-        centerTitle: true,
+        centerTitle: false,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Image.network(
+              TmdbServices.getImageUrl(film.background ?? ''),
+              width: double.infinity,
+              fit: BoxFit.fitWidth,
+            ),
+          ],
+        ),
       ),
     );
   }

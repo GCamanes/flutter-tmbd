@@ -23,23 +23,20 @@ class FilmTileWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () => _goToDetail(context),
       child: Container(
-        /// We can define margin and padding
+        // We can define margin and padding
         margin: const EdgeInsets.symmetric(horizontal: AppConstants.padding),
         padding: const EdgeInsets.all(AppConstants.innerPadding),
-
-        /// Give this context a height (easier when working with row/column)
+        // Give this context a height (easier when working with row/column)
         height: 100,
-
-        /// Give it some decoration
+        // Give it some decoration
         decoration: BoxDecoration(
           color: Colors.grey.shade300,
           borderRadius: BorderRadius.circular(10),
         ),
-
-        /// Stacking widget horizontally
+        // Stacking widget horizontally
         child: Row(
           children: <Widget>[
-            /// This widget create a context with border radius as attribute
+            // This widget create a context with border radius as attribute
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Image.network(
@@ -47,11 +44,9 @@ class FilmTileWidget extends StatelessWidget {
                 fit: BoxFit.fitHeight,
               ),
             ),
-
-            /// Spacing widgets in the row
+            // Spacing widgets in the row
             const SizedBox(width: AppConstants.innerPadding),
-
-            /// Central widget will take all available space horizontally
+            // Central widget will take all available space horizontally
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,7 +55,7 @@ class FilmTileWidget extends StatelessWidget {
                   Text(
                     film.title,
 
-                    /// We don't want UI issues with long title
+                    // We don't want UI issues with long title
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
@@ -80,8 +75,7 @@ class FilmTileWidget extends StatelessWidget {
                 ],
               ),
             ),
-
-            /// Spacing widgets in the row
+            // Spacing widgets in the row
             const SizedBox(width: AppConstants.innerPadding),
             Text(
               '${film.voteAverage}',
