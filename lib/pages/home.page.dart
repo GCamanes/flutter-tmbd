@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_tmbd/app.constants.dart';
 import 'package:flutter_tmbd/cubit/films.cubit.dart';
 import 'package:flutter_tmbd/cubit/films.cubit.state.dart';
 import 'package:flutter_tmbd/pages/search.page.dart';
-import 'package:flutter_tmbd/widgets/film_tile.widget.dart';
+import 'package:flutter_tmbd/widgets/films_list.widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -56,17 +55,7 @@ class _HomePageState extends State<HomePage> {
           if (state is FilmsLoadedState) {
             return RefreshIndicator(
               onRefresh: () => _filmsCubit.getFilms(),
-              child: ListView.separated(
-                physics: const ClampingScrollPhysics(),
-                padding: const EdgeInsets.symmetric(
-                  vertical: AppConstants.padding,
-                ),
-                itemBuilder: (BuildContext context, int index) =>
-                    FilmTileWidget(film: state.films[index]),
-                separatorBuilder: (BuildContext context, int index) =>
-                    const SizedBox(height: AppConstants.innerPadding),
-                itemCount: state.films.length,
-              ),
+              child: FilmsListWidget(films: state.films),
             );
           // show retry button if api call failed
           } else if (state is FilmsErrorState) {

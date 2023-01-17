@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tmbd/app.constants.dart';
-import 'package:flutter_tmbd/datasources/tmdb.services.dart';
-import 'package:flutter_tmbd/entities/film.entity.dart';
-import 'package:flutter_tmbd/widgets/film_tile.widget.dart';
+import 'package:flutter_tmbd/cubit/search_films.cubit.dart';
+import 'package:flutter_tmbd/cubit/search_films.cubit.state.dart';
+import 'package:flutter_tmbd/widgets/films_list.widget.dart';
 import 'package:flutter_tmbd/widgets/search_field.widget.dart';
 
 class SearchPage extends StatefulWidget {
@@ -13,30 +14,10 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  List<FilmEntity>? _films = <FilmEntity>[];
-  bool _loading = false;
+  final SearchFilmsCubit _searchCubit = SearchFilmsCubit();
   final TextEditingController _controller = TextEditingController();
 
-  Future<void> _searchFilms(String search) async {
-    setState(() {
-      _loading = true;
-    });
-    List<FilmEntity>? films = await TmdbServices.searchFilms(search);
-    setState(() {
-      _loading = false;
-      _films = films;
-    });
-  }
-
-  Widget _buildFilmList() => ListView.separated(
-        physics: const ClampingScrollPhysics(),
-        padding: const EdgeInsets.symmetric(vertical: AppConstants.padding),
-        itemBuilder: (BuildContext context, int index) =>
-            FilmTileWidget(film: _films![index]),
-        separatorBuilder: (BuildContext context, int index) =>
-            const SizedBox(height: AppConstants.innerPadding),
-        itemCount: _films?.length ?? 0,
-      );
+  void _searchFilms(String search) => _searchCubit.search(search);
 
   @override
   Widget build(BuildContext context) {
@@ -60,9 +41,24 @@ class _SearchPageState extends State<SearchPage> {
             ),
           ],
         ),
-        body: _loading
-            ? const Center(child: CircularProgressIndicator())
-            : _buildFilmList(),
+        body: BlocBuilder<SearchFilmsCubit, SearchFilmsState>(
+          bloc: _searchCubit,
+          builder: (BuildContext context, SearchFilmsState state) {
+            if (state is SearchFilmsLoadedState) {
+              return FilmsListWidget(films: state.films);
+            } else if (state is SearchFilmsErrorState) {
+              return Center(
+                child: ElevatedButton(
+                  onPressed: () => _searchFilms(_controller.text),
+                  child: const Text('Retry'),
+                ),
+              );
+            } else if (state is SearchFilmsLoadingState) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            return const SizedBox();
+          },
+        ),
       ),
     );
   }
