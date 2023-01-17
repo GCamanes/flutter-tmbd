@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tmbd/cubit/films.cubit.dart';
@@ -48,8 +50,12 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: BlocBuilder<FilmsCubit, FilmsState>(
+      // BlocConsumer is the combination of BlocBuilder and BlocListener
+      body: BlocConsumer<FilmsCubit, FilmsState>(
         bloc: _filmsCubit,
+        listener: (BuildContext context, FilmsState state) {
+          log('NEW STATE $state');
+        },
         builder: (BuildContext context, FilmsState state) {
           // show list of films if api call succeeded
           if (state is FilmsLoadedState) {
