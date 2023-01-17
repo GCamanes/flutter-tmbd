@@ -35,6 +35,7 @@ dependencies:
   flutter:
     sdk: flutter
 
+  flutter_bloc: ^8.1.1
   flutter_localizations:  # needed for app localization
     sdk: flutter
   http: ^0.13.5

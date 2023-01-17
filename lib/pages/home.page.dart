@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tmbd/app.constants.dart';
-import 'package:flutter_tmbd/datasources/tmdb.services.dart';
-import 'package:flutter_tmbd/entities/film.entity.dart';
+import 'package:flutter_tmbd/cubit/films.cubit.dart';
+import 'package:flutter_tmbd/cubit/films.cubit.state.dart';
 import 'package:flutter_tmbd/pages/search.page.dart';
 import 'package:flutter_tmbd/widgets/film_tile.widget.dart';
 
@@ -13,39 +14,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<FilmEntity>? _films = <FilmEntity>[];
-  bool _loading = false;
+  /// Create a local cubit of type FilmsCubit
+  final FilmsCubit _filmsCubit = FilmsCubit();
 
   @override
   void initState() {
-    _loadFilms();
+    _filmsCubit.getFilms();
     super.initState();
   }
 
-  Future<void> _loadFilms() async {
-    setState(() {
-      _loading = true;
-    });
-    List<FilmEntity>? films = await TmdbServices.getPopularFilms();
-    setState(() {
-      _loading = false;
-      _films = films;
-    });
+  @override
+  void dispose() {
+    /// Don't forget to close local cubit on widget dispose
+    _filmsCubit.close();
+    super.dispose();
   }
 
   void _goToSearch(BuildContext context) => Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => const SearchPage()),
-  );
-
-  Widget _buildFilmList() => ListView.separated(
-        physics: const ClampingScrollPhysics(),
-        padding: const EdgeInsets.symmetric(vertical: AppConstants.padding),
-        itemBuilder: (BuildContext context, int index) =>
-            FilmTileWidget(film: _films![index]),
-        separatorBuilder: (BuildContext context, int index) =>
-            const SizedBox(height: AppConstants.innerPadding),
-        itemCount: _films?.length ?? 0,
+        context,
+        MaterialPageRoute(builder: (context) => const SearchPage()),
       );
 
   @override
@@ -62,9 +49,38 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: _loading
-          ? const Center(child: CircularProgressIndicator())
-          : _buildFilmList(),
+      body: BlocBuilder<FilmsCubit, FilmsState>(
+        bloc: _filmsCubit,
+        builder: (BuildContext context, FilmsState state) {
+          // show list of films if api call succeeded
+          if (state is FilmsLoadedState) {
+            return RefreshIndicator(
+              onRefresh: () => _filmsCubit.getFilms(),
+              child: ListView.separated(
+                physics: const ClampingScrollPhysics(),
+                padding: const EdgeInsets.symmetric(
+                  vertical: AppConstants.padding,
+                ),
+                itemBuilder: (BuildContext context, int index) =>
+                    FilmTileWidget(film: state.films[index]),
+                separatorBuilder: (BuildContext context, int index) =>
+                    const SizedBox(height: AppConstants.innerPadding),
+                itemCount: state.films.length,
+              ),
+            );
+          // show retry button if api call failed
+          } else if (state is FilmsErrorState) {
+            return Center(
+              child: ElevatedButton(
+                onPressed: () => _filmsCubit.getFilms(),
+                child: const Text('Retry'),
+              ),
+            );
+          }
+          // show loading if cubit is working
+          return const Center(child: CircularProgressIndicator());
+        },
+      ),
     );
   }
 }
