@@ -15,7 +15,7 @@ class FilmModel extends FilmEntity {
     required int revenue,
     final String? tagLine,
     required String title,
-    required double voteAverage,
+    required num voteAverage,
     required int voteCount,
   }) : super(
           adult: adult,

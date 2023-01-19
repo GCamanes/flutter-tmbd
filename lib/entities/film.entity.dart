@@ -30,6 +30,6 @@ class FilmEntity {
   final int revenue;
   final String? tagLine;
   final String title;
-  final double voteAverage;
+  final num voteAverage;
   final int voteCount;
 }
